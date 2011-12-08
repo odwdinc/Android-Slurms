@@ -26,7 +26,9 @@ public static boolean isCollisionDetected(Sprite sprite1, Sprite sprite2){
 }
 
 private static int getBitmapPixel(Sprite sprite, int i, int j) {
-    return sprite.getBitmap().getPixel(i-(int)sprite.getX(), j-(int)sprite.getY());
+	int x = i-(int)sprite.getX();
+	int y = j-(int)sprite.getY();
+    return sprite.getBitmap().getPixel(x, y);
 }
 
 private static Rect getCollisionBounds(Rect rect1, Rect rect2) {

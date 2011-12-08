@@ -3,45 +3,50 @@ package com.isitbroken.Slurms;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.stackoverflow.arcone.CollisionUtil;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 
-	private boolean surfaceCreated;
+	boolean surfaceCreated;
 	private GameThread thread;
-	private Bitmap background;
 	private SlurmsActivity activity;
 	Handler handler;
-
+	private Sprite testcan;
+	Sprite testLeve;
+	private int Height;
 	public GameBoard(Context context, SlurmsActivity slurmsActivity) {
 		super(context, null);
 		surfaceCreated = false;
 		activity = slurmsActivity;
 		getHolder().addCallback(this);
-		AssetManager mgr = activity.getAssets();
-		InputStream temp;
-		try {
-			temp = mgr.open("BackGrounds/l0jV8.png");
-			background = BitmapFactory.decodeStream(temp);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+		Height = height;
+		AssetManager mgr = activity.getAssets();
+		InputStream temp;
+		try {
+			//background = BitmapFactory.decodeStream(mgr.open("BackGrounds/l0jV8.png"));
+			testcan = new Sprite(BitmapFactory.decodeStream(mgr.open("Sprites/spit1.png")), 200, 30, 20, 30);
+			testLeve = new Sprite(BitmapFactory.decodeStream(mgr.open("Sprites/testlevel.png")), 0, 0, width, height);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -73,9 +78,16 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if (background != null) {
-			canvas.drawBitmap(background, null, new Rect(0, 0, getWidth(),getHeight()), null);
+		//canvas.drawColor(0xFFFFFFFF);
+		canvas.drawRGB(0,0,0);
+		if(testcan != null && testLeve != null){
+			if(CollisionUtil.isCollisionDetected(testcan, testLeve) == false){
+					testcan.Fall(Height-10);
+			}
+			testcan.draw(canvas);
+			testLeve.draw(canvas);
 		}
+
 	}
 
 	private void UpdateUI() {
