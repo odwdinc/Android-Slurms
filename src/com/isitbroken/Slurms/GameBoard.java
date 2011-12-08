@@ -1,7 +1,12 @@
 package com.isitbroken.Slurms;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -22,6 +27,16 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 		surfaceCreated = false;
 		activity = slurmsActivity;
 		getHolder().addCallback(this);
+		AssetManager mgr = activity.getAssets();
+		InputStream temp;
+		try {
+			temp = mgr.open("BackGrounds/l0jV8.png");
+			background = BitmapFactory.decodeStream(temp);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
