@@ -23,6 +23,7 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 	private Sprite testcan;
 	Sprite testLeve;
 	private int Height;
+	private Bitmap Levelbackground;
 	public GameBoard(Context context, SlurmsActivity slurmsActivity) {
 		super(context, null);
 		surfaceCreated = false;
@@ -38,8 +39,8 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 		AssetManager mgr = activity.getAssets();
 		InputStream temp;
 		try {
-			//background = BitmapFactory.decodeStream(mgr.open("BackGrounds/l0jV8.png"));
-			testcan = new Sprite(BitmapFactory.decodeStream(mgr.open("Sprites/spit1.png")), 200, 30, 20, 30);
+			Levelbackground = BitmapFactory.decodeStream(mgr.open("decor/background.png"));
+			testcan = new Sprite(BitmapFactory.decodeStream(mgr.open("sprites/slurms_sprite.png")), 200, 30, 20, 30);
 			testLeve = new Sprite(BitmapFactory.decodeStream(mgr.open("Sprites/testlevel.png")), 0, 0, width, height);
 
 		} catch (IOException e) {
@@ -80,6 +81,9 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 	protected void onDraw(Canvas canvas) {
 		//canvas.drawColor(0xFFFFFFFF);
 		canvas.drawRGB(0,0,0);
+		if(Levelbackground != null ){
+			canvas.drawBitmap(Levelbackground, 0, 0, null);
+		}
 		if(testcan != null && testLeve != null){
 			if(CollisionUtil.isCollisionDetected(testcan, testLeve) == false){
 					testcan.Fall(Height-10);
