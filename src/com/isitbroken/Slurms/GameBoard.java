@@ -1,11 +1,8 @@
 package com.isitbroken.Slurms;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import com.stackoverflow.arcone.CollisionUtil;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -56,12 +53,12 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 			Player1Bitmap = BitmapFactory.decodeStream(mgr.open("sprites/slurms_sprite.png"));
 			Player2Bitmap = BitmapFactory.decodeStream(mgr.open("sprites/glurmo_sprite.png"));
 
-			;
 
-			new PlayerSprite(Player1Bitmap, 60, this).AddToMap(Player1);
-			new PlayerSprite(Player1Bitmap, 60, this).AddToMap(Player1);
-			new PlayerSprite(Player2Bitmap, 60, this).AddToMap(Player2);
-			new PlayerSprite(Player2Bitmap, 60, this).AddToMap(Player2);
+			new PlayerSprite(Player1Bitmap, 60, this,1).AddToMap(Player1);
+			new PlayerSprite(Player1Bitmap, 60, this,2).AddToMap(Player1);
+
+			new PlayerSprite(Player2Bitmap, 60, this,1).AddToMap(Player2);
+			new PlayerSprite(Player2Bitmap, 60, this,2).AddToMap(Player2);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -106,27 +103,35 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 
 		if(levePlatform != null){
 			levePlatform.draw(canvas);
+			HandlePlayers(Player1,canvas);
+			HandlePlayers(Player2,canvas);
 		}
 
-		HandlePlayers(Player1,canvas);
-		HandlePlayers(Player2,canvas);
+
 
 	}
 
-	private void HandlePlayers(HashMap<String, PlayerSprite> list, Canvas canvas) {
-		Iterator<String> SpriteIterator = list.keySet().iterator();
+	private void HandlePlayers(HashMap<String, PlayerSprite> hlist, Canvas canvas) {
+		Iterator<String> SpriteIterator = hlist.keySet().iterator();
 
 		while (SpriteIterator.hasNext()) {
 			String key = SpriteIterator.next();
-			PlayerSprite curentSprite = list.get(key);
 
-			if(levePlatform != null){
-				if(CollisionUtil.isCollisionDetected(curentSprite, levePlatform) == false){
-					curentSprite.Fall();
-				}
-			}
-
+			PlayerSprite curentSprite = hlist.get(key);
 			curentSprite.draw(canvas);
+			
+			if(curentSprite.remove == false){
+				
+				if(!curentSprite.isPlatformCollisionDetected()){
+					curentSprite.Falling();
+				}
+
+			}else{
+				SpriteIterator.remove();
+				//hlist.remove(curentSprite.ID);
+			}
+			
+
 		}
 
 	}
