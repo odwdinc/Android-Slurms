@@ -2,6 +2,8 @@ package com.isitbroken.Slurms;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 
 import com.stackoverflow.arcone.CollisionUtil;
 
@@ -10,6 +12,7 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,10 +23,18 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 	private GameThread thread;
 	private SlurmsActivity activity;
 	Handler handler;
-	private Sprite testcan;
-	Sprite testLeve;
-	private int Height;
+	PlatformSprite levePlatform;
+	int Height;
 	private Bitmap Levelbackground;
+	int Width;
+
+	HashMap<String, PlayerSprite> Player1 = new HashMap<String, PlayerSprite>();
+	HashMap<String, PlayerSprite> Player2 = new HashMap<String, PlayerSprite>();
+
+	HashMap<String, Sprite> Items;
+	private Bitmap Player1Bitmap;
+	private Bitmap Player2Bitmap;
+
 	public GameBoard(Context context, SlurmsActivity slurmsActivity) {
 		super(context, null);
 		surfaceCreated = false;
@@ -36,12 +47,21 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
 		Height = height;
+		Width = width;
 		AssetManager mgr = activity.getAssets();
-		InputStream temp;
 		try {
-			Levelbackground = BitmapFactory.decodeStream(mgr.open("decor/background.png"));
-			testcan = new Sprite(BitmapFactory.decodeStream(mgr.open("sprites/slurms_sprite.png")), 200, 30, 20, 30);
-			testLeve = new Sprite(BitmapFactory.decodeStream(mgr.open("Sprites/testlevel.png")), 0, 0, width, height);
+			Levelbackground = BitmapFactory.decodeStream(mgr.open("decor/background_faded.png"));
+			levePlatform = new PlatformSprite(BitmapFactory.decodeStream(mgr.open("foreground/platform.png")), 0, 0, width, height,this);
+
+			Player1Bitmap = BitmapFactory.decodeStream(mgr.open("sprites/slurms_sprite.png"));
+			Player2Bitmap = BitmapFactory.decodeStream(mgr.open("sprites/glurmo_sprite.png"));
+
+			;
+
+			new PlayerSprite(Player1Bitmap, 60, this).AddToMap(Player1);
+			new PlayerSprite(Player1Bitmap, 60, this).AddToMap(Player1);
+			new PlayerSprite(Player2Bitmap, 60, this).AddToMap(Player2);
+			new PlayerSprite(Player2Bitmap, 60, this).AddToMap(Player2);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -79,18 +99,40 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		//canvas.drawColor(0xFFFFFFFF);
-		canvas.drawRGB(0,0,0);
+
 		if(Levelbackground != null ){
-			canvas.drawBitmap(Levelbackground, 0, 0, null);
+			canvas.drawBitmap(Levelbackground, new Rect(0, 0, Levelbackground.getWidth(), Levelbackground.getHeight()),new Rect(0, 0,Width,Height), null);
 		}
-		if(testcan != null && testLeve != null){
-			if(CollisionUtil.isCollisionDetected(testcan, testLeve) == false){
-					testcan.Fall(Height-10);
+
+		if(levePlatform != null){
+			levePlatform.draw(canvas);
+		}
+
+		HandlePlayers(Player1,canvas);
+		HandlePlayers(Player2,canvas);
+
+	}
+
+	private void HandlePlayers(HashMap<String, PlayerSprite> list, Canvas canvas) {
+		Iterator<String> SpriteIterator = list.keySet().iterator();
+
+		while (SpriteIterator.hasNext()) {
+			String key = SpriteIterator.next();
+			PlayerSprite curentSprite = list.get(key);
+
+			if(levePlatform != null){
+				if(CollisionUtil.isCollisionDetected(curentSprite, levePlatform) == false){
+					curentSprite.Fall();
+				}
 			}
-			testcan.draw(canvas);
-			testLeve.draw(canvas);
+
+			curentSprite.draw(canvas);
 		}
+
+	}
+
+	private void TestCollisions(Canvas canvas) {
+
 
 	}
 

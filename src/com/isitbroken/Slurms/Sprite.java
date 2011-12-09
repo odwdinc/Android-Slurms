@@ -1,10 +1,7 @@
 package com.isitbroken.Slurms;
 
-import android.graphics.AvoidXfermode;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.DrawFilter;
-import android.graphics.Paint;
 import android.graphics.Rect;
 
 public class Sprite {
@@ -19,31 +16,36 @@ public class Sprite {
 	private Rect BoundRect;
 	private int Width;
 	private int Height;
+	String ID;
+	GameBoard Gameactivity;
 
 
-
-    public Sprite(Bitmap hitmap, int x, int y, int width, int height) {
-		bitmap = Bitmap.createScaledBitmap(hitmap, width, height, false);
+    public Sprite(Bitmap bitmap2, int x, int y, int width, int height, GameBoard gameBoard) {
+		bitmap = Bitmap.createScaledBitmap(bitmap2, width, height, false);
 		X = x;
 		Y = y;
-		Width = width;
-		Height = height;
+		ID = "ID:"+X+":"+Y+bitmap2.hashCode();
+		setWidth(width);
+		setHeight(height);
 		spriteWidth = bitmap.getWidth();
 		spriteHeight = bitmap.getHeight();
-		sourceRect = new Rect(0, 0, spriteWidth, spriteHeight);
-
-		BoundRect = new Rect(getX(), getY(), getX() + Width, getY() + Height);
+		setSourceRect(new Rect(0, 0, spriteWidth, spriteHeight));
+		Gameactivity = gameBoard;
+		calBound();
 	}
 
-    public void draw(Canvas canvas) {
-		// where to draw the sprite
-    	BoundRect = new Rect(getX(), getY(), getX() + Width, getY() + Height);
+    public void calBound() {
+    	setBoundRect(new Rect(getX() , getY(), getX() + getWidth() , getY() + getHeight()));
+	}
 
-		canvas.drawBitmap(bitmap, sourceRect, BoundRect, null);
+	public void draw(Canvas canvas) {
+		// where to draw the sprite
+		calBound();
+		canvas.drawBitmap(bitmap, getSourceRect(), BoundRect, null);
 	}
 
 	public Rect getBounds() {
-		return this.BoundRect;
+		return this.getBoundRect();
 	}
 
 	public int getY() {
@@ -60,31 +62,39 @@ public class Sprite {
 
 	public void SetY(int i) {
 		Y = i;
-		BoundRect = new Rect(getX(), getY(), getX() + Width, getY() + Height);
+		calBound();
 	}
 
-	public void Fall(int height2) {
-		int Tempost = getY()+1;
-
-		if(Tempost < height2){
-			SetY(Tempost);
-		}
+	public int getHeight() {
+		return Height;
 	}
 
-	public void Addhole(float f, float g, int k) {
-		Canvas thiscan = new Canvas();
-		thiscan.setBitmap(bitmap);
-		Paint thisp = new Paint();
-		thisp.setARGB(255, 0, 10, 30);
-		thiscan.drawCircle( f, g, (float)k, thisp);
+	public void setHeight(int height) {
+		Height = height;
+	}
 
-		Paint p = new Paint();
-		p.setARGB(255, 0, 10, 30); // ARGB for the color, in this case red
-		int removeColor = p.getColor();
-		p.setAlpha(0);
-		p.setXfermode(new AvoidXfermode(removeColor, 0, AvoidXfermode.Mode.TARGET));
-		thiscan.drawPaint(p);
+	public int getWidth() {
+		return Width;
+	}
 
+	public void setWidth(int width) {
+		Width = width;
+	}
+
+	public Rect getBoundRect() {
+		return BoundRect;
+	}
+
+	public void setBoundRect(Rect boundRect) {
+		BoundRect = boundRect;
+	}
+
+	public Rect getSourceRect() {
+		return sourceRect;
+	}
+
+	public void setSourceRect(Rect sourceRect) {
+		this.sourceRect = sourceRect;
 	}
 
 }

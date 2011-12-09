@@ -25,7 +25,7 @@ public static boolean isCollisionDetected(Sprite sprite1, Sprite sprite2){
     return false;
 }
 
-private static int getBitmapPixel(Sprite sprite, int i, int j) {
+public static int getBitmapPixel(Sprite sprite, int i, int j) {
 	int x = i-(int)sprite.getX();
 	int y = j-(int)sprite.getY();
     return sprite.getBitmap().getPixel(x, y);
@@ -39,7 +39,7 @@ private static Rect getCollisionBounds(Rect rect1, Rect rect2) {
     return new Rect(left, top, right, bottom);
 }
 
-private static boolean isFilled(int pixel) {
+public static boolean isFilled(int pixel) {
     return pixel != Color.TRANSPARENT;
 }
 }

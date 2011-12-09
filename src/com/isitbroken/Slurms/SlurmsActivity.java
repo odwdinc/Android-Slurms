@@ -54,7 +54,7 @@ public class SlurmsActivity extends Activity {
 
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 
-			LocalGameBoard.testLeve.Addhole(event.getX(),event.getY()-offset ,20);
+			LocalGameBoard.levePlatform.Addhole(event.getX(),event.getY()-offset ,40);
 		}
 		return true;
 	}
