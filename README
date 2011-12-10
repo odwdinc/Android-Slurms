@@ -13,3 +13,7 @@ Stuff left to do,
         Player Health
         Bullits
         Player / Seen Animation
+        Weppon rotation
+        Player ->NextCharacter -> Move -> Shoot -> NextPlayer
+        GameTime
+
