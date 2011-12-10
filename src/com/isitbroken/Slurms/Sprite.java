@@ -20,15 +20,16 @@ public class Sprite {
 	GameBoard Gameactivity;
 
 
-    public Sprite(Bitmap bitmap2, int x, int y, int width, int height, GameBoard gameBoard) {
-		bitmap = Bitmap.createScaledBitmap(bitmap2, width, height, false);
-		X = x;
+    public Sprite(Bitmap bitmap2, int x, int y, GameBoard gameBoard) {
+
+		setBitmap(bitmap2);
+		SetX(x);
 		Y = y;
-		ID = "ID:"+X+":"+Y+bitmap2.hashCode();
-		setWidth(width);
-		setHeight(height);
-		spriteWidth = bitmap.getWidth();
-		spriteHeight = bitmap.getHeight();
+		ID = "ID:"+getX()+":"+Y+bitmap2.hashCode();
+		setWidth(bitmap2.getWidth());
+		setHeight(bitmap2.getHeight());
+		spriteWidth = getBitmap().getWidth();
+		spriteHeight = getBitmap().getHeight();
 		setSourceRect(new Rect(0, 0, spriteWidth, spriteHeight));
 		Gameactivity = gameBoard;
 		calBound();
@@ -41,7 +42,7 @@ public class Sprite {
 	public void draw(Canvas canvas) {
 		// where to draw the sprite
 		calBound();
-		canvas.drawBitmap(bitmap, getSourceRect(), BoundRect, null);
+		canvas.drawBitmap(getBitmap(), getSourceRect(), BoundRect, null);
 	}
 
 	public Rect getBounds() {
@@ -95,6 +96,14 @@ public class Sprite {
 
 	public void setSourceRect(Rect sourceRect) {
 		this.sourceRect = sourceRect;
+	}
+
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
+	}
+
+	public void SetX(int x) {
+		X = x;
 	}
 
 }

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:id="@+id/GB">
-    >
-</LinearLayout>
+    android:id="@+id/GB" android:background="@drawable/background">
+    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="match_parent" android:layout_height="match_parent">
+        <ProgressBar android:layout_width="100dp" android:layout_height="12dp" android:id="@+id/Player1Life" style="?android:attr/progressBarStyleHorizontal" android:layout_alignLeft="@+id/Player2Icon" android:layout_alignTop="@+id/Player2Icon" android:layout_marginLeft="15dp"></ProgressBar>
+        <ProgressBar android:layout_width="100dp" android:id="@+id/Player2Life" style="?android:attr/progressBarStyleHorizontal" android:layout_alignLeft="@+id/Player1Icon" android:layout_alignTop="@+id/Player1Icon" android:layout_marginLeft="15dp" android:layout_height="12dp"></ProgressBar>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/Player2Icon" android:src="@drawable/icon" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true" android:background="#0095FC" android:layout_marginBottom="4dp"></ImageView>
+        <ImageView android:layout_width="12dp" android:layout_height="12dp" android:id="@+id/Player1Icon" android:src="@drawable/slurmslogo" android:layout_above="@+id/Player2Icon" android:layout_centerHorizontal="true" android:background="#CAFF9F" android:layout_marginBottom="3dp"></ImageView>
+        <TextView android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_alignRight="@+id/Player1Icon" android:layout_alignTop="@+id/Player1Icon" android:layout_marginRight="15dp" android:layout_height="wrap_content" android:text="McKenizy" android:textSize="10dp" android:textStyle="bold" android:id="@+id/Player1Name" android:background="#000000" android:textColor="#CAFF9F" android:paddingLeft="2dp" android:paddingRight="2dp"></TextView>
+        <TextView android:textSize="10dp" android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:textStyle="bold" android:layout_height="wrap_content" android:text="Glurmo" android:background="#000000" android:id="@+id/Player2Name" android:layout_alignRight="@+id/Player2Icon" android:layout_alignTop="@+id/Player2Icon" android:layout_marginRight="15dp" android:textColor="#0095FC" android:paddingRight="2dp" android:paddingLeft="2dp"></TextView>
+        <TextView android:textAppearance="?android:attr/textAppearanceLarge" android:layout_alignParentBottom="true" android:layout_alignParentLeft="true" android:background="#000000" android:id="@+id/CountDown" android:digits="2" android:gravity="center_vertical|center_horizontal" android:layout_height="30dp" android:layout_width="30dp" android:textSize="20dp" android:text="60" android:layout_marginBottom="4dp" android:layout_marginLeft="10dp"></TextView>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_above="@+id/CountDown" android:layout_alignLeft="@+id/CountDown" android:id="@+id/GameTime" android:text="00:00" android:gravity="center_vertical|center_horizontal" android:background="#000000" android:paddingLeft="3dp" android:paddingRight="3dp" android:layout_marginLeft="-6dp" android:layout_marginBottom="2dp"></TextView>
+    </RelativeLayout>
+</FrameLayout>

@@ -1,33 +1,37 @@
 package com.isitbroken.Slurms;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
-import com.stackoverflow.arcone.CollisionUtil;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.stackoverflow.arcone.CollisionUtil;
+
 public class PlayerSprite  extends Sprite {
 	HashMap<String, PlayerSprite> SpritesMap;
-	private int Border = 0;
 	private Rect DestRect;
 	boolean remove = false;
+	private WeaponSpirit Weapon;
+	private GameBoard gameBoard;
+	int Xvelocity;
+	int Yvelocity;
 
-	public PlayerSprite(Bitmap bitmap2, int Scale, GameBoard gameBoard, int i) {
-		super(bitmap2, 50+(int) (Math.random()*(gameBoard.Width-100)), 30 , Scale-10, Scale, gameBoard);
-		ID = "ID"+i;
-		remove = false;
-		// TODO Auto-generated constructor stub
-		//while(Falling()){}
+	public PlayerSprite(String string, GameBoard gameBoard, Bitmap bitmap2, HashMap<String, PlayerSprite> player) {
+		super(bitmap2, 50+(int) (Math.random()*(gameBoard.Width-100)), 30 , gameBoard);
+		this.ID = string+" "+(player.size()+1);
+		this.remove = false;
+		this.Weapon = new WeaponSpirit(this,gameBoard);
+		AddToMap(player);
+		this.gameBoard = gameBoard;
+		while(Falling() && remove == false){}
 	}
 
 	@Override
 	public void calBound() {
 		DestRect = new Rect(getX() , getY(), getX() + getWidth() , getY() + getHeight());
-		setBoundRect(new Rect(getX()+Border*2 , getY()+getHeight()/2, getX() + getWidth()-Border*2 , getY() + getHeight()-Border/2));
+		setBoundRect(new Rect(getX()+(getWidth()/3) , getY()+getHeight()/2, getX() + (getWidth()-(getWidth()/3)) , getY() + (getHeight()-(getHeight()/6))));
 	}
 
 	@Override
@@ -36,18 +40,19 @@ public class PlayerSprite  extends Sprite {
 		Paint TextPant = new Paint();
 		TextPant.setARGB(255, 0, 200, 75);
 		canvas.drawText(ID, getX(), getY(), TextPant);
-
 		canvas.drawBitmap(getBitmap(), getSourceRect(), DestRect, null);
+
+		if(Weapon.Crated){
+			Weapon.draw(canvas);
+		}
 	}
 
 	public void AddToMap(HashMap<String, PlayerSprite> List) {
-		SetBorder(10);
 		List.put(ID, this);
 		SpritesMap = List;
 
 	}
 	public void SetBorder(int i) {
-		Border = i;
 
 	}
 
@@ -81,11 +86,34 @@ public class PlayerSprite  extends Sprite {
 	                int PlayerPixel = CollisionUtil.getBitmapPixel(this, i, j);
 	                int PlatformPixel = CollisionUtil.getBitmapPixel(Gameactivity.levePlatform, i, j);
 	                if( CollisionUtil.isFilled(PlayerPixel) && CollisionUtil.isFilled(PlatformPixel)) {
-	                    return true;
+	                	return true;
 	                }
 	            }
 	        }
 	    }
 	    return false;
+	}
+	public void MoveY(int i) {
+
+		int curentY = getY();
+			SetY(curentY+i);
+
+		if(isPlatformCollisionDetected()){
+			SetY(curentY-10);
+		}
+	}
+	public void MoveX(int i) {
+
+		int curentX = getX();
+			SetX(curentX+i);
+
+		if(isPlatformCollisionDetected()){
+			SetX(curentX-i);
+		}
+	}
+
+	public void setangle(double angle) {
+		Weapon.angle = (float) angle;
+
 	}
 }
