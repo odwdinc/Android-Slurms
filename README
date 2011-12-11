@@ -6,14 +6,10 @@ Stuff left to do,
         Options
         Player Section
     Game
-        Fix gravity / add velocity
         Exploding barrles
         Landmines
         Player Score, Wend , Time UI
         Player Health
-        Bullits
         Player / Seen Animation
-        Weppon rotation
-        Player ->NextCharacter -> Move -> Shoot -> NextPlayer
         GameTime
 
