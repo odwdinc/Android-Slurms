@@ -56,7 +56,7 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 		try {
 
 			Levelbackground = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(mgr.open("decor/background_faded.png")), Width, Height, false);
-			levePlatform = new PlatformSprite(Bitmap.createScaledBitmap(BitmapFactory.decodeStream(mgr.open("foreground/platform.png")), Width, Height, false), 0, 0, this);
+			levePlatform = new PlatformSprite(Bitmap.createScaledBitmap(BitmapFactory.decodeStream(mgr.open("foreground/platform1.png")), Width, Height, false), 0, 0, this);
 
 			SplatWepon = BitmapFactory.decodeStream(mgr.open("sprites/slurmsBlast.png"));
 			 Matrix matrix = new Matrix();
@@ -142,7 +142,6 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 
 		while (SpriteIterator.hasNext()) {
 			String key = SpriteIterator.next();
-
 			PlayerSprite curentSprite = hlist.get(key);
 
 
@@ -172,7 +171,7 @@ public class GameBoard extends SurfaceView implements SurfaceHolder.Callback{
 
 	}
 
-	private void UpdateUI() {
+	void UpdateUI() {
 		handler.post(new Runnable() {
 			@Override
 			public void run() {

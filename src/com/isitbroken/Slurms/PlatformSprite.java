@@ -22,9 +22,9 @@ public class PlatformSprite extends Sprite {
 		Canvas TempCanvas = new Canvas();
 		TempCanvas.setBitmap(getBitmap());
 
-		//TempCanvas.drawCircle( f, g, (float)k, RemovePaint);
+		TempCanvas.drawCircle( f, g, (float)k, RemovePaint);
 
-		TempCanvas.drawBitmap(Gameactivity.SplatWepon, new Rect(0,0,Gameactivity.SplatWepon.getWidth(),Gameactivity.SplatWepon.getHeight()), new Rect((int)(f-k/2) ,(int)(g-k/2) , (int)(f+k/2), (int)(g+k/2)), RemovePaint);
+		//TempCanvas.drawBitmap(Gameactivity.SplatWepon, new Rect(0,0,Gameactivity.SplatWepon.getWidth(),Gameactivity.SplatWepon.getHeight()), new Rect((int)(f-k/2) ,(int)(g-k/2) , (int)(f+k/2), (int)(g+k/2)), RemovePaint);
 
 
 		RemovePaint.setAlpha(0);

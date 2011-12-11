@@ -22,7 +22,7 @@ public class PlayerSprite  extends Sprite {
 		super(bitmap2, 50+(int) (Math.random()*(gameBoard.Width-100)), 30 , gameBoard);
 		this.ID = string+" "+(player.size()+1);
 		this.remove = false;
-		this.Weapon = new WeaponSpirit(this,gameBoard);
+		this.Weapon = new WeaponSpirit(this,gameBoard, "Weapon1", "bullit");
 		AddToMap(player);
 		this.gameBoard = gameBoard;
 		while(Falling() && remove == false){}
@@ -112,8 +112,14 @@ public class PlayerSprite  extends Sprite {
 		}
 	}
 
-	public void setangle(double angle) {
+	public void setangle(double angle, boolean flip) {
 		Weapon.angle = (float) angle;
+		Weapon.flip = flip;
+
+	}
+
+	public void FrireWepon() {
+		Weapon.Fire();
 
 	}
 }
